@@ -9,7 +9,9 @@ public class GameController : MonoBehaviour {
     public Text scoreCounter;
     public Text levelClearedText;
     public Text levelTimeText;
-    public Image levelClearedCover;
+    public GameObject levelClearedCover;
+    public GameObject nextLevelButton;
+    public GameObject replayLevelButton;
     public GameObject flag1;
     public GameObject flag2;
     public bool gameRunning = true;
@@ -24,10 +26,12 @@ public class GameController : MonoBehaviour {
     {
         flag1Finish = flag1.GetComponent<PlayerFinish>();
         flag2Finish = flag2.GetComponent<PlayerFinish>();
-        levelClearedCover.enabled = false;
+        levelClearedCover.SetActive(false);
         levelTimeText.enabled = false;
         levelClearedText.enabled = false;
-    }
+        nextLevelButton.SetActive(false);
+        replayLevelButton.SetActive(false);
+}
 	
 	// Update is called once per frame
 	void Update () 
@@ -55,11 +59,27 @@ public class GameController : MonoBehaviour {
 
             levelTimeText.enabled = true;
             levelClearedText.enabled = true;
-            levelClearedCover.enabled = true;
+            levelClearedCover.SetActive(true);
+            nextLevelButton.SetActive(true);
+            replayLevelButton.SetActive(true);
             gameRunning = false;
             levelTimeText.text = Math.Round(time, 2).ToString();
-
-           // SceneManager.LoadScene(0, LoadSceneMode.Single);
         }
+    }
+
+    public void LoadNextLevel()
+    {
+        flag1Finish.playerFinished = false;
+        flag2Finish.playerFinished = false;
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
+    }
+
+    public void LoadThisLevel()
+    {
+        flag1Finish.playerFinished = false;
+        flag2Finish.playerFinished = false;
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 }
