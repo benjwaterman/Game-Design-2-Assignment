@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
 
     private PlayerFinish flag1Finish;
     private PlayerFinish flag2Finish;
+    private AudioSource source;
 
     private float time;
 
@@ -26,6 +27,7 @@ public class GameController : MonoBehaviour {
     {
         flag1Finish = flag1.GetComponent<PlayerFinish>();
         flag2Finish = flag2.GetComponent<PlayerFinish>();
+        source = GetComponent<AudioSource>();
         levelClearedCover.SetActive(false);
         levelTimeText.enabled = false;
         levelClearedText.enabled = false;
@@ -81,5 +83,10 @@ public class GameController : MonoBehaviour {
         flag2Finish.playerFinished = false;
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+    }
+
+    public void playSound( AudioClip sound, float volume)
+    {
+        source.PlayOneShot(sound, volume);
     }
 }

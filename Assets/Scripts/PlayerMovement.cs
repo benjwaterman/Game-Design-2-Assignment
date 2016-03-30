@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public int player;
     public bool enableFloating = false;
 
+    public AudioClip jumpSound;
+
 	private int horForce = 7;
 	private int jumpForce = 500;
 	private int maxJumps = 1;
@@ -30,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private float localXScale;
 
     private Vector3 raycastPoint;
+
+    private AudioSource source;
 	
 	void Start () 
 	{
@@ -37,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
         //if (transform.childCount > 0)
         //    smokeParticle = GetComponentInChildren<ParticleSystem> (); //gets particle system
         localXScale = transform.localScale.x;
+
+        source = GetComponent<AudioSource>();
 
         if (transform.childCount > 0)
             raycastPoint = this.gameObject.transform.FindChild("RaycastPoint").position;
@@ -53,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
 			if(Input.GetButtonDown("Jump") && currentJumps < maxJumps)
 			{
-				yMovement = new Vector2 (rb.velocity.x, jumpForce);
+                source.PlayOneShot(jumpSound, 0.5f);
+                yMovement = new Vector2 (rb.velocity.x, jumpForce);
 				rb.velocity = new Vector2 (rb.velocity.x, 0);
 				rb.AddForce(yMovement);
 				currentJumps++;

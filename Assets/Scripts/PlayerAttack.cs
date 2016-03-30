@@ -8,11 +8,16 @@ public class PlayerAttack : MonoBehaviour {
 	public int bulletSpeed = 1000;
     public int player;
 
+    public AudioClip shootSound;
+
+    private AudioSource source;
+
     float localXScale;
 
     void Start () 
 	{
         localXScale = projectile.transform.localScale.x;
+        source = GetComponent<AudioSource>();
 	}
 
 	void Update () 
@@ -23,6 +28,7 @@ public class PlayerAttack : MonoBehaviour {
             {
                 Rigidbody2D clone;
                 clone = Instantiate(projectile, transform.position, transform.rotation) as Rigidbody2D;
+                source.PlayOneShot(shootSound, 0.5f);
 
                 if (PlayerMovement.playerFacing == 0)
                 {
